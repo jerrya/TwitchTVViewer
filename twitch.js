@@ -29,7 +29,7 @@ $(document).ready(function() {
 
 						newElement.append(statusElement('online'));
 
-						newElement.append(detailsElement(data.stream.channel.status));
+						newElement.append(detailsElement(data.stream.channel.game));
 					} else {
 						newElement.className = 'twitch-container';
 
@@ -66,7 +66,7 @@ $(document).ready(function() {
 
 	function detailsElement(details) {
 		var elementStatus = document.createElement('p');
-		elementStatus.innerText = details;
+		elementStatus.innerText = "Streaming: " + details;
 
 		return elementStatus;
 	}
