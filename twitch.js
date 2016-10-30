@@ -22,24 +22,21 @@ $(document).ready(function() {
 					newElement.className = 'twitch-container';
 					newElement.innerText = user + " not found."
 				} else {
-					var elementLink = document.createElement('a');
-					elementLink.setAttribute("href", "http://www.twitch.tv/" + user);
-
 					if (data.stream != null) {
 						newElement.className = 'twitch-container';
-						elementLink.innerText = data.stream.channel.display_name + ", online";
-						elementLink.className = 'online';
 
-						var elementStatus = document.createElement('p');
-						elementStatus.innerText = "Status: " + data.stream.channel.status;
-						newElement.append(elementStatus);
+						newElement.append(linkElement(user, data.stream.channel.display_name, 'online'));
+
+						newElement.append(statusElement('online'));
+
+						newElement.append(detailsElement(data.stream.channel.status));
 					} else {
 						newElement.className = 'twitch-container';
-						elementLink.className = 'offline';
-						elementLink.innerText = user + ", OFFLINE";
-					}
 
-					newElement.append(elementLink);
+						newElement.append(linkElement(user, user, 'offline'));
+
+						newElement.append(statusElement('offline'));
+					}
 				}
 
 				$("#results").append(newElement);
@@ -48,6 +45,30 @@ $(document).ready(function() {
 				$("#results").append("Unable to retrieve data for " + user);
 			}
 		});
+	}
+
+	function linkElement(user, innerText, className) {
+		var elementLink = document.createElement('a');
+		elementLink.setAttribute("href", "http://www.twitch.tv/" + user);
+
+		elementLink.innerText = innerText;
+
+		return elementLink;
+	}
+
+	function statusElement(status) {
+		var elementStatus = document.createElement('p');
+		elementStatus.className = status;
+		elementStatus.innerText = status;
+
+		return elementStatus;
+	}
+
+	function detailsElement(details) {
+		var elementStatus = document.createElement('p');
+		elementStatus.innerText = details;
+
+		return elementStatus;
 	}
 
 });
