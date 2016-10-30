@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	var streamList = ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas"];
+	var streamList = ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas", "comster404"];
 
 	getStreams();
 
@@ -16,26 +16,33 @@ $(document).ready(function() {
 			type: "GET",
 			dataType: "jsonp",
 			success: function(data) {
-				
 				var newElement = document.createElement('div');
 				newElement.className = 'twitch-container';
 
-
-				var elementLink = document.createElement('a');
-				elementLink.setAttribute("href", "http://www.twitch.tv/" + user);
-
-				if (data.stream != null) {
-					elementLink.innerText = data.stream.channel.display_name + ", online";	
+				if (data.error === "Not Found") {
+					newElement.innerText = user + " not found."
 				} else {
-					elementLink.innerText = user + ", OFFLINE";
+
+					var elementLink = document.createElement('a');
+					elementLink.setAttribute("href", "http://www.twitch.tv/" + user);
+
+					if (data.stream != null) {
+						elementLink.innerText = data.stream.channel.display_name + ", online";	
+
+						var elementStatus = document.createElement('p');
+						elementStatus.innerText = "Status: " + data.stream.channel.status;
+						newElement.append(elementStatus);
+					} else {
+						elementLink.innerText = user + ", OFFLINE";
+					}
+
+					newElement.append(elementLink);
 				}
 
-				newElement.append(elementLink);
-
-				$("#results").append($(newElement));
+				$("#results").append(newElement);
 			},
 			error: function(data, error) {
-				alert("Did not work: " + data);
+				$("#results").append("Unable to retrieve data for " + user);
 			}
 		});
 	}
