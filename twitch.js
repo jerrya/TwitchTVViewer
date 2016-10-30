@@ -17,22 +17,25 @@ $(document).ready(function() {
 			dataType: "jsonp",
 			success: function(data) {
 				var newElement = document.createElement('div');
-				newElement.className = 'twitch-container';
 
 				if (data.error === "Not Found") {
+					newElement.className = 'twitch-container';
 					newElement.innerText = user + " not found."
 				} else {
-
 					var elementLink = document.createElement('a');
 					elementLink.setAttribute("href", "http://www.twitch.tv/" + user);
 
 					if (data.stream != null) {
-						elementLink.innerText = data.stream.channel.display_name + ", online";	
+						newElement.className = 'twitch-container';
+						elementLink.innerText = data.stream.channel.display_name + ", online";
+						elementLink.className = 'online';
 
 						var elementStatus = document.createElement('p');
 						elementStatus.innerText = "Status: " + data.stream.channel.status;
 						newElement.append(elementStatus);
 					} else {
+						newElement.className = 'twitch-container';
+						elementLink.className = 'offline';
 						elementLink.innerText = user + ", OFFLINE";
 					}
 
