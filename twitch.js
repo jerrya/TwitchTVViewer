@@ -20,14 +20,19 @@ $(document).ready(function() {
 				var newElement = document.createElement('div');
 				newElement.className = 'twitch-container';
 
+
+				var elementLink = document.createElement('a');
+				elementLink.setAttribute("href", "http://www.twitch.tv/" + user);
+
 				if (data.stream != null) {
-					newElement.innerText = data.stream.channel.display_name + ", online";
+					elementLink.innerText = data.stream.channel.display_name + ", online";	
 				} else {
-					newElement.innerText = user + ", OFFLINE";
+					elementLink.innerText = user + ", OFFLINE";
 				}
 
+				newElement.append(elementLink);
+
 				$("#results").append($(newElement));
-				
 			},
 			error: function(data, error) {
 				alert("Did not work: " + data);
